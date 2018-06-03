@@ -15,4 +15,5 @@ lazy val api = (project in file("api")).settings(
     akkaHttp,
     akkaStream,
     akkaHttpSpray)
+  ++ Dependencies.Logging
 )
