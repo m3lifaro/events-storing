@@ -18,11 +18,13 @@ lazy val api = (project in file("api")).settings(
     akkaHttpSpray,
     jodaTime,
     pureKafka)
-  ++ Dependencies.Logging
+    ++ Dependencies.Logging
 )
 
 lazy val writer = (project in file("writer")).settings(
   commonSettings,
   name := "writer",
   libraryDependencies ++= Seq()
+    ++ Dependencies.Logging
+    ++ Dependencies.Kafka
 )
