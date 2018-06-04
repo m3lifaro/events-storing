@@ -9,8 +9,6 @@ import scala.util.Try
 
 trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol with StrictLogging {
 
-  implicit val simpleEventFormat: RootJsonFormat[SimpleEvent] = jsonFormat2(SimpleEvent)
-
   implicit object JDateFormat extends RootJsonFormat[LocalDate] {
     override def write(date: LocalDate): JsValue = JsString(DateTimeSupport.dateFormat.print(date))
 
@@ -64,4 +62,7 @@ trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol with StrictL
       case x ⇒ deserializationError(s"Failed to deserialize $x")
     }
   }
+
+  implicit val simpleEventFormat: RootJsonFormat[SimpleEvent] = jsonFormat2(SimpleEvent)
+
 }

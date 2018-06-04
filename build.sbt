@@ -15,6 +15,7 @@ lazy val api = (project in file("api")).settings(
     akkaHttp,
     akkaStream,
     akkaHttpSpray,
-    jodaTime)
+    jodaTime,
+    pureKafka)
   ++ Dependencies.Logging
 )
