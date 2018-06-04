@@ -14,5 +14,7 @@ object Dependencies {
   val logback = "ch.qos.logback" % "logback-classic" % logbackVersion
   val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
 
+  val jodaTime = "joda-time" % "joda-time" % "2.9.9"
+
   val Logging = Seq(logback, scalaLogging)
 }

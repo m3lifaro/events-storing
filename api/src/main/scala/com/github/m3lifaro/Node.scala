@@ -2,7 +2,7 @@ package com.github.m3lifaro
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
-import com.github.m3lifaro.route.EventRoute
+import com.github.m3lifaro.rest.route.EventRoute
 import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.ExecutionContextExecutor

@@ -14,6 +14,7 @@ lazy val api = (project in file("api")).settings(
   libraryDependencies ++= Seq(akkaActor,
     akkaHttp,
     akkaStream,
-    akkaHttpSpray)
+    akkaHttpSpray,
+    jodaTime)
   ++ Dependencies.Logging
 )
