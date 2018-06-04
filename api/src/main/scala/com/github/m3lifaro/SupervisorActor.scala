@@ -10,7 +10,6 @@ class SupervisorActor(config: KafkaConfig) extends Actor with StrictLogging {
   def receive: Receive = {
     case msg:EventContainer ⇒
       producer.forward(msg)
-      sender ! Processed
     case msg ⇒
       logger.warn(s"unexpected message received: $msg")
   }
