@@ -11,6 +11,7 @@ lazy val commonSettings = Seq(
 
 lazy val api = (project in file("api")).settings(
   commonSettings,
+  name := "api",
   libraryDependencies ++= Seq(akkaActor,
     akkaHttp,
     akkaStream,
@@ -18,4 +19,10 @@ lazy val api = (project in file("api")).settings(
     jodaTime,
     pureKafka)
   ++ Dependencies.Logging
+)
+
+lazy val writer = (project in file("writer")).settings(
+  commonSettings,
+  name := "writer",
+  libraryDependencies ++= Seq()
 )
