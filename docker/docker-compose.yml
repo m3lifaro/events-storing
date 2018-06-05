@@ -1,0 +1,17 @@
+version: '3.6'
+
+services:
+  zookeeper:
+    image: confluent/zookeeper
+    ports:
+      - 2181:2181
+    environment:
+      zk_id: ${ZK_ID}
+  kafka:
+    image: confluent/kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: ${KAFKA_ZOOKEEPER_CONNECT}

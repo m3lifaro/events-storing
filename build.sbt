@@ -12,13 +12,18 @@ lazy val commonSettings = Seq(
 lazy val api = (project in file("api")).settings(
   commonSettings,
   name := "api",
+  scalacOptions in Test ++= Seq("-Yrangepos"),
   libraryDependencies ++= Seq(akkaActor,
     akkaHttp,
     akkaStream,
     akkaHttpSpray,
     jodaTime,
-    pureKafka)
+    pureKafka,
+    akkaHttpTestKit,
+    akkaTestKit,
+    kafkaTesting)
     ++ Dependencies.Logging
+    ++ Dependencies.TestKit
 )
 
 lazy val writer = (project in file("writer")).settings(
