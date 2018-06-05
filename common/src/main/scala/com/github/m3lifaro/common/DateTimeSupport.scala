@@ -1,5 +1,4 @@
-package com.github.m3lifaro.rest
-
+package com.github.m3lifaro.common
 import org.joda.time.{DateTime, DateTimeZone, LocalDate}
 import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
 
@@ -21,4 +20,3 @@ trait DateTimeSupport {
 }
 
 object DateTimeSupport extends DateTimeSupport
-

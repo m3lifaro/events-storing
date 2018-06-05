@@ -1,13 +1,12 @@
-package com.github.m3lifaro.rest
+package com.github.m3lifaro.common
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import com.typesafe.scalalogging.StrictLogging
 import org.joda.time.{DateTime, LocalDate}
 import spray.json.{DefaultJsonProtocol, DeserializationException, JsArray, JsBoolean, JsFalse, JsNull, JsNumber, JsObject, JsString, JsTrue, JsValue, JsonFormat, RootJsonFormat, deserializationError, serializationError}
 
 import scala.util.Try
 
-trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol with StrictLogging {
+trait KafkaJsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
 
   implicit object JDateFormat extends RootJsonFormat[LocalDate] {
     override def write(date: LocalDate): JsValue = JsString(DateTimeSupport.dateFormat.print(date))
@@ -62,7 +61,5 @@ trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol with StrictL
       case x ⇒ deserializationError(s"Failed to deserialize $x")
     }
   }
-
-  implicit val simpleEventFormat: RootJsonFormat[SimpleEvent] = jsonFormat2(SimpleEvent)
 
 }

@@ -10,6 +10,6 @@ object Node extends App with StrictLogging {
   logger.info("Application started")
 
   implicit val system: ActorSystem = ActorSystem("writer-system")
-  val consumer = system.actorOf(Props(new AutoPartitionBatchConsumer(WriterConfig.kafkaConfig)))
+  val consumer = system.actorOf(Props(new AutoPartitionBatchConsumer(WriterConfig.kafkaConfig, WriterConfig.chConfig)))
 
 }

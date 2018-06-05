@@ -5,16 +5,17 @@ import akka.actor.{Actor, ActorRef, PoisonPill}
 import cakesolutions.kafka.KafkaConsumer
 import cakesolutions.kafka.akka.{ConsumerRecords, Extractor, KafkaConsumerActor}
 import cakesolutions.kafka.akka.KafkaConsumerActor.{Confirm, Subscribe}
-import com.github.m3lifaro.config.KafkaConsumerConfig
-import com.github.m3lifaro.storage.SomeDBStorage
+import com.github.m3lifaro.common.KafkaJsonSupport
+import com.github.m3lifaro.config.{ClickhouseConfig, KafkaConsumerConfig}
+import com.github.m3lifaro.storage.ClickHouseWriter
 import com.typesafe.scalalogging.StrictLogging
 import org.apache.kafka.clients.consumer.{ConsumerConfig, OffsetResetStrategy}
 import org.apache.kafka.common.serialization.StringDeserializer
-
+import spray.json._
 import scala.concurrent.duration._
 import scala.util.Try
 
-class AutoPartitionBatchConsumer(config: KafkaConsumerConfig) extends Actor with StrictLogging {
+class AutoPartitionBatchConsumer(config: KafkaConsumerConfig, chConfig: ClickhouseConfig) extends Actor with StrictLogging with KafkaJsonSupport {
 
   val recordsExt: Extractor[Any, ConsumerRecords[String, String]] = ConsumerRecords.extractor[String, String]
 
@@ -43,14 +44,14 @@ class AutoPartitionBatchConsumer(config: KafkaConsumerConfig) extends Actor with
 
   consumer ! Subscribe.AutoPartition(Seq(config.topic))
 
-  val db = new SomeDBStorage()
+  val db = new ClickHouseWriter(chConfig)
 
   override def receive: Receive = {
     case recordsExt(records) =>
 
       logger.info(s"inserting ${records.values.length}")
 
-      Try(db.insertEvents(records.values)).toOption match {
+      Try(db.insertEvents(records.values.map(_.parseJson.convertTo[Map[String, Any]]))).toOption match {
         case Some(_) ⇒ sender() ! Confirm(records.offsets, commit = true)
         case None ⇒ self ! PoisonPill
       }
