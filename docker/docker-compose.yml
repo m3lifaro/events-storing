@@ -15,3 +15,16 @@ services:
       - 9092:9092
     environment:
       KAFKA_ZOOKEEPER_CONNECT: ${KAFKA_ZOOKEEPER_CONNECT}
+  clickhouse:
+      container_name: clickhouseContainer
+      image: yandex/clickhouse-server
+      build: clickhouse/server
+      ports:
+        - 9100:9100
+        - 8123:8123
+      volumes:
+        - ${CLICKHOUSE_BASE_PATH}/server/config.xml:/etc/clickhouse-server/config.xml
+        - ${CLICKHOUSE_BASE_PATH}/clickhouse-data:/opt/clickhouse/data
+        - ${CLICKHOUSE_BASE_PATH}/sql/init.sql:/usr/src/init.sql
+        - ${CLICKHOUSE_BASE_PATH}/scripts/init.sh:/usr/src/init.sh
+      command: bash -c "cd /usr/src/ && sh init.sh"
